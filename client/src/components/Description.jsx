@@ -16,7 +16,9 @@ const Description = () => {
           className="w-80 xl:w-96 rounded-lg"
         />
         <div>
-          <h2 className="text-3xl font-medium max-w-lg mb-4">Introducing the API-Powered Text to Image Generator</h2>
+          <h2 className="text-3xl font-medium max-w-lg mb-4">
+            Introducing the API-Powered Text to Image Generator
+          </h2>
           <p className="text-gray-600 mb-4">
             Easily bring your ideias to life with our free AI image generator.
             Whether you need stunning visuals or unique imagery, our tool
