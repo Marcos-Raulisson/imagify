@@ -1,5 +1,6 @@
 import React from "react";
 import { stepsData } from "../assets/assets";
+import {motion} from 'framer-motion';
 
 const Steps = () => {
   return (
