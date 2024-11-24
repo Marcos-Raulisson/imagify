@@ -51,7 +51,7 @@ const Login = () => {
             Don't have an account?
             <span
               className="text-blue-600 cursor-pointer"
-              onClick={() => useState("Sign Up")}
+              onClick={() => setState("Sign Up")}
             >
               
               Sign Up
@@ -62,7 +62,7 @@ const Login = () => {
             Already have an account?
             <span
               className="text-blue-600 cursor-pointer"
-              onClick={() => useState("Login")}
+              onClick={() => setState("Login")}
             >
               
               Login
