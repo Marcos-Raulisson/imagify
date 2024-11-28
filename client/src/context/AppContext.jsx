@@ -1,5 +1,6 @@
 // Importa as funções necessárias do React
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState, } from "react";
+import {useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -17,11 +18,13 @@ const AppContextProvider = (props) => {
   const [credit, setCredit] = useState(false)
   const backendUrl = import.meta.env.VITE_BACKEND_URL
 
+  const navigate = useNavigate()
+
   const loadCreditsData = async ()=>{
     try{
       const {data} = await axios.get(`${backendUrl}/api/user/credits`, {headers:{token}})
 
-      if(data.sucess){
+      if(data.success){
         setCredit(data.credits)
         setUser(data.user)
       }
@@ -30,6 +33,35 @@ const AppContextProvider = (props) => {
       toast.error(error.message)
     }
   }
+
+  const generateImage = async (prompt)=>{
+    try{
+      const {data} = await axios.post(`${backendUrl}/api/image/generate-image`, {prompt}, {headers: {token}})
+
+      if(data){
+        loadCreditsData()
+        return data.resultImage
+      }else{
+        toast.error(data.message)
+        loadCreditsData()
+        if(data.creditBalance ===0){
+          navigate('/buy')
+        }
+      }
+    }catch(error){
+      toast.error(error.message)
+    }
+  }
+
+  const logout = ()=>{
+    localStorage.removeItem('token');
+    setToken('')
+    setUser(null)
+  }
+  
+  useEffect(()=>{if(token){
+    loadCreditsData()
+  }},[token])
   
   // Cria um objeto `value` que contém os estados e funções para compartilhamento
   const value = {
@@ -41,7 +73,10 @@ const AppContextProvider = (props) => {
     token,
     setToken,
     credit,
-    setCredit
+    setCredit,
+    loadCreditsData,
+    logout,
+    generateImage
   };
 
   return (
