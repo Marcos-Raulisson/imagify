@@ -1,5 +1,7 @@
 // Importa as funções necessárias do React
 import { createContext, useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 // Cria um contexto global chamado `AppContext` que será usado para compartilhar dados entre componentes
 export const AppContext = createContext();
@@ -13,9 +15,21 @@ const AppContextProvider = (props) => {
   const [token, setToken] = useState(localStorage.getItem('token'))
 
   const [credit, setCredit] = useState(false)
-
-
   const backendUrl = import.meta.env.VITE_BACKEND_URL
+
+  const loadCreditsData = async ()=>{
+    try{
+      const {data} = await axios.get(`${backendUrl}/api/user/credits`, {headers:{token}})
+
+      if(data.sucess){
+        setCredit(data.credits)
+        setUser(data.user)
+      }
+    }catch(error){
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
   
   // Cria um objeto `value` que contém os estados e funções para compartilhamento
   const value = {
