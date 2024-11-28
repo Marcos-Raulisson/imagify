@@ -38,13 +38,13 @@ const AppContextProvider = (props) => {
     try{
       const {data} = await axios.post(`${backendUrl}/api/image/generate-image`, {prompt}, {headers: {token}})
 
-      if(data){
+      if(data.success){
         loadCreditsData()
         return data.resultImage
       }else{
         toast.error(data.message)
         loadCreditsData()
-        if(data.creditBalance ===0){
+        if(data.creditBalance === 0){
           navigate('/buy')
         }
       }
